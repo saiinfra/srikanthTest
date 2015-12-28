@@ -136,7 +136,7 @@ public class TestRunner {
 		ExecShellScript exec = new ExecShellScript();
 
 		// checkout from git
-		// exec.checkOutSrc(repoURL);
+	 exec.checkOutSrc(repoURL);
 
 		/* load xls file and read contents of xls
 
