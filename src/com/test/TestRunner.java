@@ -33,6 +33,8 @@ public class TestRunner {
 	private static String testsuitename;
 	private static String testInformationId;
 	private static String testcase;
+	private static String testMetadataLogId;
+
 
 	private static ArrayList<Integer> failureList = new ArrayList<>();
 	private static ArrayList<Integer> noofTestList = new ArrayList<>();
@@ -95,7 +97,7 @@ public class TestRunner {
 						TestScriptsDO object = (TestScriptsDO) iterator.next();
 						String testscriptid = object.getId();
 						testScriptsResultsDAO.insert(junitOutput, sfHandle,
-								testscriptid, getTestInformationId());
+								testscriptid, getTestInformationId(),getTestMetadataLogId());
 
 					}
 
@@ -136,13 +138,11 @@ public class TestRunner {
 		ExecShellScript exec = new ExecShellScript();
 
 		// checkout from git
-	 exec.checkOutSrc(repoURL);
+		exec.checkOutSrc(repoURL);
 
-		/* load xls file and read contents of xls
-
-		
-		
-		*/
+		/*
+		 * load xls file and read contents of xls
+		 */
 
 		// find the classes in git repo
 		// copy files to Test Framework src
@@ -150,11 +150,6 @@ public class TestRunner {
 			String fileName = arr[i];
 			exec.copyFile(FileSearch.getPath(fileName));
 			exec.compile(fileName);
-		}
-		String[] arr1 = getTestClassNames(getTestInformationId());
-		for (int i = 0; i < arr1.length; i++) {
-			String testCase = arr1[i];
-			executeTest(testCase);
 		}
 
 		// Total Analysis
@@ -189,14 +184,24 @@ public class TestRunner {
 
 		// update into MetadataLog Summary
 
+	
+
+		
+		String[] arr1 = getTestClassNames(getTestInformationId());
+		for (int i = 0; i < arr1.length; i++) {
+			String testCase = arr1[i];
+			executeTest(testCase);
+		}
 		TestMetadataLogDO testMetadataLogDO = createTestMetadataLog(sum1, sum2,
 				ToatlSucess, sum3);
 
 		TestMetadataLogDAO testMetadataLogDAO = (TestMetadataLogDAO) Factory
 				.getObjectInstance("TestMetadataLogDAO");
-		testMetadataLogDAO.insert(testMetadataLogDO, sfHandle,
-				getTestInformationId());
-
+		String metadataLogId = testMetadataLogDAO.insert(testMetadataLogDO,
+				sfHandle, getTestInformationId());
+		setTestMetadataLogId(metadataLogId);
+		
+		System.out.println("TestMetadataLog ID :" + metadataLogId);
 	}
 
 	private static String[] getTestJavaNames(String id) {
@@ -462,5 +467,14 @@ public class TestRunner {
 		TestRunner.testcase = testcase;
 	}
 
+	public static String getTestMetadataLogId() {
+		return testMetadataLogId;
+	}
+
+	public static void setTestMetadataLogId(String testMetadataLogId) {
+		TestRunner.testMetadataLogId = testMetadataLogId;
+	}
+	
+	
 
 }

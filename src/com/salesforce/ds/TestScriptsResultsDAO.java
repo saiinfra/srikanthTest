@@ -21,7 +21,7 @@ public class TestScriptsResultsDAO {
 	}
 
 	public boolean insert(Object obj, SFoAuthHandle sfHandle,
-			String testscriptId, String testinformationid) {
+			String testscriptId, String testinformationid, String metadataLogId) {
 		// create the records
 
 		ResultInformationDO resultInformationDO = (ResultInformationDO) obj;
@@ -35,6 +35,7 @@ public class TestScriptsResultsDAO {
 		a.setTimes_s__c(resultInformationDO.getTime());
 		a.setTest_Information__c(testinformationid);
 		a.setTest_Script__c(testscriptId);
+		a.setTesting_MetadataLog__c(metadataLogId);
 		// a.setTest_Steps__c(resultInformationDO.getTestcasename());
 		// a.setStep__c(1.0);
 

@@ -31,7 +31,7 @@ public class TestMetadataLogDAO {
 		super();
 	}
 
-	public boolean insert(Object obj, SFoAuthHandle sfHandle,String testInformationId) {
+	public String insert(Object obj, SFoAuthHandle sfHandle,String testInformationId) {
 		// create the records
 		TestMetadataLogDO testMetadataLogDO = (TestMetadataLogDO) obj;
 
@@ -49,9 +49,9 @@ public class TestMetadataLogDAO {
 		// a.setName__c(testMetadataLogDO.getName());
 
 		record[0] = a;
-		commit(record, sfHandle);
+		String metadatLog=commit1(record, sfHandle);
 
-		return true;
+		return metadatLog;
 	}
 
 	public boolean commit(SObject[] sobjects, SFoAuthHandle sfHandle) {
@@ -76,6 +76,31 @@ public class TestMetadataLogDAO {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	public String  commit1(SObject[] sobjects, SFoAuthHandle sfHandle) {
+		String metadataLogId="";
+		try {
+			com.sforce.soap.enterprise.UpsertResult[] saveResults = sfHandle
+					.getEnterpriseConnection().upsert("Id", sobjects);
+
+			for (UpsertResult r : saveResults) {
+				if (r.isSuccess()) {
+					System.out.println("Created TestMetadata  record - Id: "
+							+ r.getId());
+					metadataLogId=r.getId();
+				} else {
+					for (com.sforce.soap.enterprise.Error e : r.getErrors()) {
+						throw new Exception(e.getMessage() + "-status code-"
+								+ e.getStatusCode());
+					}
+					return metadataLogId;
+				}
+			}
+			System.out.println("saving TestResults :");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return metadataLogId;
 	}
 
 	public boolean update(Object obj, SFoAuthHandle sfHandle) {
