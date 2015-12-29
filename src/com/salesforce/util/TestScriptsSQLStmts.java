@@ -13,7 +13,7 @@ public static String gettestscripts(String testInformationid){
 public static String gettestscripts1(String scriptname){
 	
 	String sql = "SELECT Id, Name"
-			+ " FROM Test_Script__c" + " where Name= '" + scriptname + "' order by ";
+			+ " FROM Test_Script__c" + " where Name= '" + scriptname + "'";
 	System.out.println(sql);
 	return sql;
 }
