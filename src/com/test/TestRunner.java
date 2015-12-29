@@ -35,7 +35,6 @@ public class TestRunner {
 	private static String testcase;
 	private static String testMetadataLogId;
 
-
 	private static ArrayList<Integer> failureList = new ArrayList<>();
 	private static ArrayList<Integer> noofTestList = new ArrayList<>();
 	private static ArrayList<Double> totalTimeList = new ArrayList<>();
@@ -43,6 +42,7 @@ public class TestRunner {
 	private static double sum1 = 0.0;
 	private static double sum2 = 0.0;
 	private static double sum3 = 0.0;
+	private static double ToatlSucess = 0.0;
 
 	private static SFoAuthHandle sfHandle = null;
 
@@ -97,7 +97,8 @@ public class TestRunner {
 						TestScriptsDO object = (TestScriptsDO) iterator.next();
 						String testscriptid = object.getId();
 						testScriptsResultsDAO.insert(junitOutput, sfHandle,
-								testscriptid, getTestInformationId(),getTestMetadataLogId());
+								testscriptid, getTestInformationId(),
+								getTestMetadataLogId());
 
 					}
 
@@ -148,8 +149,26 @@ public class TestRunner {
 		// copy files to Test Framework src
 		for (int i = 0; i < arr.length; i++) {
 			String fileName = arr[i];
-			exec.copyFile(FileSearch.getPath(fileName));
+			// exec.copyFile(FileSearch.getPath(fileName));
 			exec.compile(fileName);
+		}
+
+		// create Metadatalog with empty data
+		TestMetadataLogDO testMetadataLogDO = createTestMetadataLog("", sum1,
+				sum2, ToatlSucess, sum3);
+
+		TestMetadataLogDAO testMetadataLogDAO = (TestMetadataLogDAO) Factory
+				.getObjectInstance("TestMetadataLogDAO");
+		String metadataLogId = testMetadataLogDAO.insert(testMetadataLogDO,
+				sfHandle, getTestInformationId());
+		setTestMetadataLogId(metadataLogId);
+
+		System.out.println("TestMetadataLog ID :" + metadataLogId);
+
+		String[] arr1 = getTestClassNames(getTestInformationId());
+		for (int i = 0; i < arr1.length; i++) {
+			String testCase = arr1[i];
+			executeTest(testCase);
 		}
 
 		// Total Analysis
@@ -184,24 +203,14 @@ public class TestRunner {
 
 		// update into MetadataLog Summary
 
-	
+		TestMetadataLogDO testMetadataLogDO1 = createTestMetadataLog(
+				getTestMetadataLogId(), sum1, sum2, ToatlSucess, sum3);
 
-		
-		String[] arr1 = getTestClassNames(getTestInformationId());
-		for (int i = 0; i < arr1.length; i++) {
-			String testCase = arr1[i];
-			executeTest(testCase);
-		}
-		TestMetadataLogDO testMetadataLogDO = createTestMetadataLog(sum1, sum2,
-				ToatlSucess, sum3);
-
-		TestMetadataLogDAO testMetadataLogDAO = (TestMetadataLogDAO) Factory
+		TestMetadataLogDAO testMetadataLogDAO1 = (TestMetadataLogDAO) Factory
 				.getObjectInstance("TestMetadataLogDAO");
-		String metadataLogId = testMetadataLogDAO.insert(testMetadataLogDO,
-				sfHandle, getTestInformationId());
-		setTestMetadataLogId(metadataLogId);
-		
-		System.out.println("TestMetadataLog ID :" + metadataLogId);
+		testMetadataLogDAO1.update(testMetadataLogDO1, sfHandle,
+				getTestInformationId());
+
 	}
 
 	private static String[] getTestJavaNames(String id) {
@@ -382,11 +391,11 @@ public class TestRunner {
 
 	}
 
-	private static TestMetadataLogDO createTestMetadataLog(Double fails,
-			Double tests, Double sucess, Double totalTime) {
+	private static TestMetadataLogDO createTestMetadataLog(String metadatalog,
+			Double fails, Double tests, Double sucess, Double totalTime) {
 
 		metadataLogDO = new TestMetadataLogDO();
-
+		metadataLogDO.setId(metadatalog);
 		metadataLogDO.setStatus(Constants.COMPLETED_STATUS);
 		metadataLogDO.setTestinformation(Constants.TestInformationID);
 		metadataLogDO.setTotalTests(tests);
@@ -474,7 +483,5 @@ public class TestRunner {
 	public static void setTestMetadataLogId(String testMetadataLogId) {
 		TestRunner.testMetadataLogId = testMetadataLogId;
 	}
-	
-	
 
 }

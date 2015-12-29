@@ -103,7 +103,7 @@ public class TestMetadataLogDAO {
 		return metadataLogId;
 	}
 
-	public boolean update(Object obj, SFoAuthHandle sfHandle) {
+	public boolean update(Object obj, SFoAuthHandle sfHandle,String testInformationId) {
 		try {
 
 			if (obj == null) {
@@ -115,7 +115,10 @@ public class TestMetadataLogDAO {
 			if (metadataLogDOobj instanceof TestMetadataLogDO) {
 				metadataLog__c.setId(metadataLogDOobj.getId());
 				metadataLog__c.setStatus__c(metadataLogDOobj.getStatus());
-				metadataLog__c.setMessage__c(metadataLogDOobj.getMessage());
+				metadataLog__c.setTest_Information__c(testInformationId);
+				metadataLog__c.setTests__c(metadataLogDOobj.getTotalTests());
+				metadataLog__c.setFailures__c(metadataLogDOobj.getTotalFailures());
+				metadataLog__c.setTimes_s__c(metadataLogDOobj.getTotalTimes());
 
 			}
 

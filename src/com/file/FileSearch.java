@@ -8,7 +8,7 @@ public class FileSearch {
 
 	private String fileNameToSearch;
 	private static List<String> result = new ArrayList<String>();
-	private static String searchPath = "/home/srikanth/.jenkins/workspace/TestFramework/testsrc1/src";
+	private static String searchPath = "/home/srikanth/.jenkins/workspace/TFramework1/testsrc1/src";
 	
 	public String getFileNameToSearch() {
 		return fileNameToSearch;

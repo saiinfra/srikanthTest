@@ -19,7 +19,7 @@ public class ExecShellScript {
 	public static void checkOutSrc(String repoURL) {
 		try {
 			
-			String path = "/home/srikanth/.jenkins/workspace/TestFramework/";
+			String path = "/home/srikanth/.jenkins/workspace/TFramework1/";
 			Process proc = Runtime.getRuntime().exec(path + "script.sh " + repoURL);
 			BufferedReader read = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			try {
@@ -37,9 +37,9 @@ public class ExecShellScript {
 	
 	public static void copyFile(String fileName) {
 		try {
-			String execFilePath = "/home/srikanth/.jenkins/workspace/TestFramework/";
-			String srcPath = "/home/srikanth/.jenkins/workspace/TestFramework/testsrc/"+fileName;
-			String targetPath = "/home/srikanth/.jenkins/workspace/TestFramework/src/com/test";
+			String execFilePath = "/home/srikanth/.jenkins/workspace/TFramework1/";
+			String srcPath = "/home/srikanth/.jenkins/workspace/TFramework1/testsrc/"+fileName;
+			String targetPath = "/home/srikanth/.jenkins/workspace/TFramework1/src/com/test";
 			Process proc = Runtime.getRuntime().exec(execFilePath + "copyFilesScript.sh " + fileName+" "+targetPath);
 			BufferedReader read = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			try {
@@ -57,11 +57,11 @@ public class ExecShellScript {
 
 	public static void compile(String fileName) {
 		try {
-			String execFilePath = "/home/srikanth/.jenkins/workspace/TestFramework/";
-			String path = "/home/srikanth/.jenkins/workspace/TestFramework";
-			String srcPath = "/home/srikanth/.jenkins/workspace/TestFramework/src/com/test/";
+			String execFilePath = "/home/srikanth/.jenkins/workspace/TFramework1/";
+			String path = "/home/srikanth/.jenkins/workspace/TFramework1";
+			String srcPath = "/home/srikanth/.jenkins/workspace/TFramework1/src/com/test/";
 			//String targetPath = "/home/infra3/eclipse_workspace/selenium/s1/Selenium_Test/build/classes";
-			String targetPath = "/home/srikanth/.jenkins/workspace/TestFramework/bin";
+			String targetPath = "/home/srikanth/.jenkins/workspace/TFramework1/bin";
 			fileName = srcPath+fileName;
 			Process proc = Runtime.getRuntime().exec(execFilePath + "compile.sh " + targetPath +" "+fileName);
 			BufferedReader read = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -80,8 +80,8 @@ public class ExecShellScript {
 	
 	public static void run(String fileName) {
 		try {
-			String execFilePath = "/home/srikanth/.jenkins/workspace/TestFramework/";
-			String path = "/home/srikanth/.jenkins/workspace/TestFramework";
+			String execFilePath = "/home/srikanth/.jenkins/workspace/TFramework1/";
+			String path = "/home/srikanth/.jenkins/workspace/TFramework1";
 			fileName = "com.test."+fileName;
 			Process proc = Runtime.getRuntime().exec(execFilePath + "run.sh " + fileName);
 			BufferedReader read = new BufferedReader(new InputStreamReader(proc.getInputStream()));
