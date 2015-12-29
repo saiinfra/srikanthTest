@@ -155,7 +155,7 @@ public class TestRunner {
 
 		// create Metadatalog with empty data
 		TestMetadataLogDO testMetadataLogDO = createTestMetadataLog("", sum1,
-				sum2, ToatlSucess, sum3);
+				sum2, ToatlSucess, sum3,getTestInformationId());
 
 		TestMetadataLogDAO testMetadataLogDAO = (TestMetadataLogDAO) Factory
 				.getObjectInstance("TestMetadataLogDAO");
@@ -204,7 +204,7 @@ public class TestRunner {
 		// update into MetadataLog Summary
 
 		TestMetadataLogDO testMetadataLogDO1 = createTestMetadataLog(
-				getTestMetadataLogId(), sum1, sum2, ToatlSucess, sum3);
+				getTestMetadataLogId(), sum1, sum2, ToatlSucess, sum3,getTestInformationId());
 
 		TestMetadataLogDAO testMetadataLogDAO1 = (TestMetadataLogDAO) Factory
 				.getObjectInstance("TestMetadataLogDAO");
@@ -392,12 +392,12 @@ public class TestRunner {
 	}
 
 	private static TestMetadataLogDO createTestMetadataLog(String metadatalog,
-			Double fails, Double tests, Double sucess, Double totalTime) {
+			Double fails, Double tests, Double sucess, Double totalTime,String testInformationId) {
 
 		metadataLogDO = new TestMetadataLogDO();
 		metadataLogDO.setId(metadatalog);
 		metadataLogDO.setStatus(Constants.COMPLETED_STATUS);
-		metadataLogDO.setTestinformation(Constants.TestInformationID);
+		metadataLogDO.setTestinformation(testInformationId);
 		metadataLogDO.setTotalTests(tests);
 		metadataLogDO.setTotalFailures(fails);
 		metadataLogDO.setTotalSuccess(sucess);
